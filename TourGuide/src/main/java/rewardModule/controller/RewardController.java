@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 import rewardModule.service.IRewardsService;
 
 import java.util.UUID;
@@ -16,12 +17,23 @@ public class RewardController {
 
     @Autowired
     IRewardsService rewardsService;
-
+/*
     @RequestMapping("/getRewardPoints")
     public int getRewardPoints(@RequestParam String attractionId, @RequestParam String userId) {
         logger.debug("Request getRewardPoints");
         int rewardsPoints = rewardsService.getRewardPoints(UUID.fromString(attractionId), UUID.fromString(userId));
         logger.debug("Response rewardsPoints=" + rewardsPoints);
         return rewardsPoints;
+    }
+*/
+
+    @RequestMapping("/getRewardPoints")
+    public Mono<Integer> getRewardPoints(@RequestParam String attractionId, @RequestParam String userId) {
+        logger.debug("Request getRewardPoints");
+        int rewardsPoints = rewardsService.getRewardPoints(UUID.fromString(attractionId), UUID.fromString(userId));
+        logger.debug("Response rewardsPoints=" + rewardsPoints);
+
+        return Mono.just(rewardsPoints);
+        //return rewardsPoints;
     }
 }
